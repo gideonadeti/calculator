@@ -11,3 +11,8 @@ export interface KeysProps {
     value: string;
   }[];
 }
+
+export interface DisplayProps {
+  input: string;
+  output: string;
+}
