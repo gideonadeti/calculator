@@ -1,0 +1,26 @@
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, calc(250px / 4));
+  gap: 5px;
+}
+
+.keys > #equals {
+  grid-row: span 2;
+  background-color: #0d6efd;
+  color: white !important;
+}
+
+.keys > #equals:hover {
+  background-color: #0b5ed7;
+}
+
+.keys > button {
+  transition: background-color 0.3s, transform 0.3s;
+  will-change: contents;
+}
+.keys > button:hover {
+  background-color: #f8f9fa;
+}
+.keys > button:active {
+  transform: scale(0.9);
+}

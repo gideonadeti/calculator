@@ -3,7 +3,7 @@ import Key from "./Key";
 
 export default function Keys({ keysData }: KeysProps) {
   return (
-    <div>
+    <div className="keys">
       {keysData.map((keyData) => (
         <Key key={keyData.id} keyData={keyData} />
       ))}
