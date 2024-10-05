@@ -4,3 +4,10 @@ export interface KeyProps {
     value: string;
   };
 }
+
+export interface KeysProps {
+  keysData: {
+    id: string;
+    value: string;
+  }[];
+}
