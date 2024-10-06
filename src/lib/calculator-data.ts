@@ -20,7 +20,7 @@ export const keys = [
   { id: "decimal", value: "." },
 ];
 
-export const operators = ["÷", "x", "-"];
+export const operators = ["÷", "x", "-", "+"];
 
 export const specialKeys = ["C", "÷", "x", "⌫", "-", "+", "="];
 
