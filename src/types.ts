@@ -1,15 +1,16 @@
+export interface KeyData {
+  id: string;
+  value: string | number;
+}
+
 export interface KeyProps {
-  keyData: {
-    id: string;
-    value: string | number;
-  };
+  keyData: KeyData;
+  handleKeyClick: (key: string) => void;
 }
 
 export interface KeysProps {
-  keysData: {
-    id: string;
-    value: string | number;
-  }[];
+  keysData: KeyData[];
+  handleKeyClick: (key: string) => void;
 }
 
 export interface DisplayProps {
