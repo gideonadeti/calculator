@@ -2,24 +2,38 @@ import { useState } from "react";
 
 import Display from "./Display";
 import Keys from "./Keys";
-import { keys } from "../lib/calculator-data";
+import { keys, numbers } from "../lib/calculator-data";
 
 export default function Main() {
   const [input, setInput] = useState("0");
   const [output, setOutput] = useState("");
 
-  function handleKeyClick(key: string) {
+  function handleKeyClick(key: string | number) {
+    const number = numbers.find((n) => n === key) as number;
+
     switch (key) {
       case "C":
         resetDisplay();
+        break;
+      case number:
+        handleNumberClick(number);
         break;
       default:
         break;
     }
   }
+
   function resetDisplay() {
     setInput("0");
     setOutput("");
+  }
+
+  function handleNumberClick(number: number) {
+    if (input === "0") {
+      setInput(number.toString());
+    } else {
+      setInput(`${input}${number}`);
+    }
   }
 
   return (

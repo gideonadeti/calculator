@@ -1,15 +1,17 @@
 import { KeyProps } from "../types";
-import { operators } from "../lib/calculator-data";
+import { specialKeys } from "../lib/calculator-data";
 
 export default function Key({
   keyData: { id, value },
   handleKeyClick,
 }: KeyProps) {
-  const isOperator = operators.includes(value as string);
+  const isSpecialKey = specialKeys.includes(value as string);
 
   return (
     <button
-      className={`btn fs-5 border rounded ${isOperator ? "text-primary" : ""}`}
+      className={`btn fs-5 border rounded ${
+        isSpecialKey ? "text-primary" : ""
+      }`}
       id={id}
       onClick={() => handleKeyClick(value as string)}
     >
