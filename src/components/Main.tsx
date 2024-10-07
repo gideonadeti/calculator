@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Display from "./Display";
 import Keys from "./Keys";
-import { keys, numbers } from "../lib/calculator-data";
+import { keys, numbers, operators } from "../lib/calculator-data";
 
 export default function Main() {
   const [input, setInput] = useState("0");
@@ -10,6 +10,7 @@ export default function Main() {
 
   function handleKeyClick(key: string | number) {
     const number = numbers.find((n) => n === key) as number;
+    const operator = operators.find((o) => o === key) as string;
 
     switch (key) {
       case "C":
@@ -17,6 +18,9 @@ export default function Main() {
         break;
       case number:
         handleNumberClick(number);
+        break;
+      case operator:
+        handleOperatorClick(operator);
         break;
       default:
         break;
@@ -33,6 +37,30 @@ export default function Main() {
       setInput(number.toString());
     } else {
       setInput(`${input}${number}`);
+    }
+  }
+
+  /**
+   * Handles operator key clicks.
+   * @param operator The operator key that was clicked.
+   *
+   * If the input is not "0" and the last character is not an operator,
+   * appends the operator to the input.
+   *
+   * If the input is "0" and the operator is "-", sets the input to "-".
+   *
+   * If the last character is "x" or "÷", and the operator is "-",
+   * appends the operator to the input.
+   */
+  function handleOperatorClick(operator: string) {
+    const lastChar = input.slice(-1);
+
+    if (input !== "0" && !"+-x÷".includes(lastChar)) {
+      setInput(`${input}${operator}`);
+    } else if (input === "0" && operator === "-") {
+      setInput(`${operator}`);
+    } else if ((lastChar === "x" || lastChar === "÷") && operator === "-") {
+      setInput(`${input}${operator}`);
     }
   }
 
