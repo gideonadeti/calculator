@@ -22,6 +22,9 @@ export default function Main() {
       case operator:
         handleOperatorClick(operator);
         break;
+      case "⌫":
+        handleBackspaceClick();
+        break;
       default:
         break;
     }
@@ -61,6 +64,16 @@ export default function Main() {
       setInput(`${operator}`);
     } else if ((lastChar === "x" || lastChar === "÷") && operator === "-") {
       setInput(`${input}${operator}`);
+    }
+  }
+
+  function handleBackspaceClick() {
+    const lastChar = input.slice(-1);
+
+    if (input.length > 1 && /[\d+\-x÷]/.test(lastChar)) {
+      setInput(input.slice(0, -1));
+    } else {
+      setInput("0");
     }
   }
 
