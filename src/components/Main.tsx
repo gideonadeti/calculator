@@ -5,8 +5,7 @@ import Keys from "./Keys";
 import { keys, numbers, operators } from "../lib/calculator-data";
 
 export default function Main() {
-  const [input, setInput] = useState("0");
-  const [output, setOutput] = useState("");
+  const [display, setDisplay] = useState("0");
 
   function handleKeyClick(key: string | number) {
     const number = numbers.find((n) => n === key) as number;
@@ -37,50 +36,51 @@ export default function Main() {
   }
 
   function handlePercentClick() {
-    const lastChar = input.slice(-1);
+    const lastChar = display.slice(-1);
 
-    if (!(input === "0" || operators.includes(lastChar))) {
+    if (!(display === "0" || operators.includes(lastChar))) {
       const numberRegex = /-?\d+(\.\d+)?/g;
-      const numbers = input.match(numberRegex);
+      const numbers = display.match(numberRegex);
       const lastNumberStr = numbers?.[numbers.length - 1];
       if (!lastNumberStr) return;
 
       const lastNumber = parseFloat(lastNumberStr);
       const percentage = lastNumber / 100;
-      const modifiedExpression = input.replace(
+
+      const modifiedExpression = display.replace(
         new RegExp(`${lastNumberStr}$`),
         percentage.toString()
       );
-      setInput(modifiedExpression);
+
+      setDisplay(modifiedExpression);
     }
   }
 
   function handleDecimalClick() {
-    const lastChar = input.slice(-1);
+    const lastChar = display.slice(-1);
 
-    if (input === "0") {
-      setInput("0.");
+    if (display === "0") {
+      setDisplay("0.");
     } else if (operators.includes(lastChar)) {
-      setInput(`${input}0.`);
+      setDisplay(`${display}0.`);
     } else {
-      const numbers = input.split(/[+\-x÷]/);
-      const lastNumber = numbers[-1];
+      const numbers = display.split(/[+\-x÷]/);
+      const lastNumber = numbers[numbers.length - 1];
       if (!lastNumber.includes(".")) {
-        setInput(`${input}.`);
+        setDisplay(`${display}.`);
       }
     }
   }
 
   function resetDisplay() {
-    setInput("0");
-    setOutput("");
+    setDisplay("0");
   }
 
   function handleNumberClick(number: number) {
-    if (input === "0") {
-      setInput(number.toString());
+    if (display === "0") {
+      setDisplay(number.toString());
     } else {
-      setInput(`${input}${number}`);
+      setDisplay(`${display}${number}`);
     }
   }
 
@@ -88,33 +88,33 @@ export default function Main() {
    * Handles operator key clicks.
    * @param operator The operator key that was clicked.
    *
-   * If the input is not "0" and the last character is not an operator,
-   * appends the operator to the input.
+   * If the display is not "0" and the last character is not an operator,
+   * appends the operator to the display.
    *
-   * If the input is "0" and the operator is "-", sets the input to "-".
+   * If the display is "0" and the operator is "-", sets the display to "-".
    *
    * If the last character is "x" or "÷", and the operator is "-",
-   * appends the operator to the input.
+   * appends the operator to the display.
    */
   function handleOperatorClick(operator: string) {
-    const lastChar = input.slice(-1);
+    const lastChar = display.slice(-1);
 
-    if (input !== "0" && !"+-x÷".includes(lastChar)) {
-      setInput(`${input}${operator}`);
-    } else if (input === "0" && operator === "-") {
-      setInput(`${operator}`);
+    if (display !== "0" && !"+-x÷".includes(lastChar)) {
+      setDisplay(`${display}${operator}`);
+    } else if (display === "0" && operator === "-") {
+      setDisplay(`${operator}`);
     } else if ((lastChar === "x" || lastChar === "÷") && operator === "-") {
-      setInput(`${input}${operator}`);
+      setDisplay(`${display}${operator}`);
     }
   }
 
   function handleBackspaceClick() {
-    const lastChar = input.slice(-1);
+    const lastChar = display.slice(-1);
 
-    if (input.length > 1 && /[\d+\-x÷]/.test(lastChar)) {
-      setInput(input.slice(0, -1));
+    if (display.length > 1 && /[\d+\-x÷]/.test(lastChar)) {
+      setDisplay(display.slice(0, -1));
     } else {
-      setInput("0");
+      setDisplay("0");
     }
   }
 
@@ -123,7 +123,7 @@ export default function Main() {
       className="d-flex flex-column align-items-center justify-content-center mx-auto my-5 p-3 rounded border shadow-sm gap-3"
       style={{ maxWidth: "300px" }}
     >
-      <Display input={input} output={output} />
+      <Display display={display} />
       <Keys keysData={keys} handleKeyClick={handleKeyClick} />
     </main>
   );
