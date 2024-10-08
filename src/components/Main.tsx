@@ -25,8 +25,26 @@ export default function Main() {
       case "⌫":
         handleBackspaceClick();
         break;
+      case ".":
+        handleDecimalClick();
+        break;
       default:
         break;
+    }
+  }
+  function handleDecimalClick() {
+    const lastChar = input.slice(-1);
+
+    if (input === "0") {
+      setInput("0.");
+    } else if (operators.includes(lastChar)) {
+      setInput(`${input}0.`);
+    } else {
+      const numbers = input.split(/[+\-x÷]/);
+      const lastNumber = numbers[-1];
+      if (!lastNumber.includes(".")) {
+        setInput(`${input}.`);
+      }
     }
   }
 
