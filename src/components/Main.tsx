@@ -6,7 +6,7 @@ import { keys, numbers, operators } from "../lib/calculator-data";
 import { operate } from "../lib/calculator-functions";
 
 export default function Main() {
-  const [display, setDisplay] = useState("0");
+  const [display, setDisplay] = useState("gogome x bayere");
 
   function handleKeyClick(key: string | number) {
     const number = numbers.find((n) => n === key) as number;
@@ -39,31 +39,23 @@ export default function Main() {
     }
   }
 
-  function handleEqualsClick(nextOperator: string = "") {
-    const lastChar = display.slice(-1);
+  function handleEqualsClick() {
+    const displayOperators = display.match(/[+\-x÷]/g);
+    if (displayOperators && displayOperators.length === 1) {
+      const operator = displayOperators[0];
 
-    if (!operators.includes(lastChar)) {
-      if (display.includes("x") && display.includes("-")) {
-        const operator = "x";
+      const [firstNumber, secondNumber] = display.split(operator);
 
-        const [firstNumber, secondNumber] = display
-          .split(operator)
-          .map(parseFloat);
+      const newOperator =
+        operator === "x" ? "*" : operator === "÷" ? "/" : operator;
 
-        const result = operate("*", firstNumber, secondNumber);
+      const result = operate(
+        newOperator,
+        parseFloat(firstNumber),
+        parseFloat(secondNumber)
+      );
 
-        setDisplay(`${result}${nextOperator}`);
-      } else if (display.includes("÷") && display.includes("-")) {
-        const operator = "÷";
-
-        const [firstNumber, secondNumber] = display
-          .split(operator)
-          .map(parseFloat);
-
-        const result = operate("/", firstNumber, secondNumber);
-
-        setDisplay(`${result}${nextOperator}`);
-      }
+      setDisplay(result.toString());
     }
   }
 
