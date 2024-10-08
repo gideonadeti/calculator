@@ -3,6 +3,7 @@ import { useState } from "react";
 import Display from "./Display";
 import Keys from "./Keys";
 import { keys, numbers, operators } from "../lib/calculator-data";
+import { operate } from "../lib/calculator-functions";
 
 export default function Main() {
   const [display, setDisplay] = useState("0");
@@ -30,8 +31,33 @@ export default function Main() {
       case "%":
         handlePercentClick();
         break;
+      case "=":
+        handleEqualsClick();
+        break;
       default:
         break;
+    }
+  }
+
+  function handleEqualsClick(nextOperator: string = "") {
+    const lastChar = display.slice(-1);
+
+    if (!operators.includes(lastChar)) {
+      if (display.includes("x") && display.includes("-")) {
+        const operator = "x";
+        const [firstNumber, secondNumber] = display
+          .split(operator)
+          .map(parseFloat);
+        const result = operate("*", firstNumber, secondNumber);
+        setDisplay(`${result}${nextOperator}`);
+      } else if (display.includes("÷") && display.includes("-")) {
+        const operator = "÷";
+        const [firstNumber, secondNumber] = display
+          .split(operator)
+          .map(parseFloat);
+        const result = operate("/", firstNumber, secondNumber);
+        setDisplay(`${result}${nextOperator}`);
+      }
     }
   }
 
