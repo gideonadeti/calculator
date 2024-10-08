@@ -45,17 +45,23 @@ export default function Main() {
     if (!operators.includes(lastChar)) {
       if (display.includes("x") && display.includes("-")) {
         const operator = "x";
+
         const [firstNumber, secondNumber] = display
           .split(operator)
           .map(parseFloat);
+
         const result = operate("*", firstNumber, secondNumber);
+
         setDisplay(`${result}${nextOperator}`);
       } else if (display.includes("÷") && display.includes("-")) {
         const operator = "÷";
+
         const [firstNumber, secondNumber] = display
           .split(operator)
           .map(parseFloat);
+
         const result = operate("/", firstNumber, secondNumber);
+
         setDisplay(`${result}${nextOperator}`);
       }
     }
