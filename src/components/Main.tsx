@@ -56,6 +56,23 @@ export default function Main() {
       );
 
       setDisplay(result.toString());
+    } else if (displayOperators && displayOperators.length === 3) {
+      if (displayOperators.includes("x") || displayOperators.includes("÷")) {
+        const operator = displayOperators.includes("x") ? "x" : "÷";
+
+        const [firstNumber, secondNumber] = display.split(operator);
+
+        const newOperator =
+          operator === "x" ? "*" : operator === "÷" ? "/" : operator;
+
+        const result = operate(
+          newOperator,
+          parseFloat(firstNumber),
+          parseFloat(secondNumber)
+        );
+
+        setDisplay(result.toString());
+      }
     }
   }
 
