@@ -28,10 +28,33 @@ export default function Main() {
       case ".":
         handleDecimalClick();
         break;
+      case "%":
+        handlePercentClick();
+        break;
       default:
         break;
     }
   }
+
+  function handlePercentClick() {
+    const lastChar = input.slice(-1);
+
+    if (!(input === "0" || operators.includes(lastChar))) {
+      const numberRegex = /-?\d+(\.\d+)?/g;
+      const numbers = input.match(numberRegex);
+      const lastNumberStr = numbers?.[numbers.length - 1];
+      if (!lastNumberStr) return;
+
+      const lastNumber = parseFloat(lastNumberStr);
+      const percentage = lastNumber / 100;
+      const modifiedExpression = input.replace(
+        new RegExp(`${lastNumberStr}$`),
+        percentage.toString()
+      );
+      setInput(modifiedExpression);
+    }
+  }
+
   function handleDecimalClick() {
     const lastChar = input.slice(-1);
 
