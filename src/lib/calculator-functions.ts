@@ -1,19 +1,24 @@
-function add(a: number, b: number): number {
-  return parseFloat((a + b).toFixed(2));
+function add(a: number, b: number) {
+  return parseFloat((a + b).toFixed(5));
 }
-function subtract(a: number, b: number): number {
-  return parseFloat((a - b).toFixed(2));
+
+function subtract(a: number, b: number) {
+  return parseFloat((a - b).toFixed(5));
 }
-function multiply(a: number, b: number): number {
-  return parseFloat((a * b).toFixed(2));
+
+function multiply(a: number, b: number) {
+  return parseFloat((a * b).toFixed(5));
 }
-function divide(a: number, b: number): number {
-  if (b === 0) {
-    throw new Error("Cannot divide by zero");
-  }
-  return parseFloat((a / b).toFixed(5));
+
+function divide(a: number, b: number) {
+  return b === 0 ? NaN : parseFloat((a / b).toFixed(5));
 }
-export function operate(operator: string, firstNumber: number, secondNumber: number): number {
+
+export function operate(
+  operator: string,
+  firstNumber: number,
+  secondNumber: number
+) {
   switch (operator) {
     case "+":
       return add(firstNumber, secondNumber);
@@ -24,11 +29,11 @@ export function operate(operator: string, firstNumber: number, secondNumber: num
     case "/":
       return divide(firstNumber, secondNumber);
     default:
-      throw new Error("Invalid operator");
+      return NaN;
   }
 }
-export function isValidExpression(input: string): boolean {
+
+export function isValidExpression(input: string) {
   const pattern = /^(-?\d+(\.\d+)?)[+\-x÷]+(-?\d+(\.\d+)?)$/;
   return pattern.test(input);
 }
-
