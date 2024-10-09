@@ -3,10 +3,10 @@ import { useState } from "react";
 import Display from "./Display";
 import Keys from "./Keys";
 import { keys, numbers, operators } from "../lib/calculator-data";
-import { operate } from "../lib/calculator-functions";
+import { operate, isValidExpression } from "../lib/calculator-functions";
 
 export default function Main() {
-  const [display, setDisplay] = useState("gogome x bayere");
+  const [display, setDisplay] = useState("0");
 
   function handleKeyClick(key: string | number) {
     const number = numbers.find((n) => n === key) as number;
@@ -39,7 +39,7 @@ export default function Main() {
     }
   }
 
-  function handleEqualsClick() {
+  function handleEqualsClick(nextOperator: string = "") {
     const displayOperators = display.match(/[+\-x÷]/g);
     if (displayOperators && displayOperators.length === 1) {
       const operator = displayOperators[0];
@@ -55,7 +55,7 @@ export default function Main() {
         parseFloat(secondNumber)
       );
 
-      setDisplay(result.toString());
+      setDisplay(`${result.toString()}${nextOperator}`);
     } else if (displayOperators && displayOperators.length === 3) {
       if (displayOperators.includes("x") || displayOperators.includes("÷")) {
         const operator = displayOperators.includes("x") ? "x" : "÷";
@@ -71,7 +71,7 @@ export default function Main() {
           parseFloat(secondNumber)
         );
 
-        setDisplay(result.toString());
+        setDisplay(`${result.toString()}${nextOperator}`);
       }
     } else if (displayOperators && displayOperators.length === 2) {
       if (displayOperators.includes("x") || displayOperators.includes("÷")) {
@@ -88,22 +88,19 @@ export default function Main() {
           parseFloat(secondNumber)
         );
 
-        setDisplay(result.toString());
+        setDisplay(`${result.toString()}${nextOperator}`);
       } else {
         const operator = displayOperators[1];
 
         const [firstNumber, secondNumber] = display.split(operator);
 
-        const newOperator =
-          operator === "x" ? "*" : operator === "÷" ? "/" : operator;
-
         const result = operate(
-          newOperator,
+          operator,
           parseFloat(firstNumber),
           parseFloat(secondNumber)
         );
 
-        setDisplay(result.toString());
+        setDisplay(`${result.toString()}${nextOperator}`);
       }
     }
   }
@@ -172,12 +169,16 @@ export default function Main() {
   function handleOperatorClick(operator: string) {
     const lastChar = display.slice(-1);
 
-    if (display !== "0" && !"+-x÷".includes(lastChar)) {
-      setDisplay(`${display}${operator}`);
-    } else if (display === "0" && operator === "-") {
-      setDisplay(`${operator}`);
-    } else if ((lastChar === "x" || lastChar === "÷") && operator === "-") {
-      setDisplay(`${display}${operator}`);
+    if (isValidExpression(display)) {
+      handleEqualsClick(operator);
+    } else {
+      if (display !== "0" && !"+-x÷".includes(lastChar)) {
+        setDisplay(`${display}${operator}`);
+      } else if (display === "0" && operator === "-") {
+        setDisplay(`${operator}`);
+      } else if ((lastChar === "x" || lastChar === "÷") && operator === "-") {
+        setDisplay(`${display}${operator}`);
+      }
     }
   }
 
