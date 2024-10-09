@@ -41,6 +41,7 @@ export default function Main() {
 
   function handleEqualsClick(nextOperator: string = "") {
     const displayOperators = display.match(/[+\-x÷]/g);
+
     if (displayOperators && displayOperators.length === 1) {
       const operator = displayOperators[0];
 
@@ -91,6 +92,19 @@ export default function Main() {
         setDisplay(`${result.toString()}${nextOperator}`);
       } else {
         const operator = displayOperators[1];
+
+        const numOfMinus = display.match(/-/g)?.length || 0;
+
+        if (numOfMinus === 2) {
+          const secondMinusIndex = display.lastIndexOf("-");
+
+          const firstNumber = parseFloat(display.slice(0, secondMinusIndex));
+          const secondNumber = parseFloat(display.slice(secondMinusIndex + 1));
+
+          const result = operate("-", firstNumber, secondNumber);
+
+          return setDisplay(`${result}${nextOperator}`);
+        }
 
         const [firstNumber, secondNumber] = display.split(operator);
 
