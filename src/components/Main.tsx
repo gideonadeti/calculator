@@ -13,14 +13,14 @@ export default function Main() {
     const operator = operators.find((o) => o === key) as string;
 
     switch (key) {
-      case "C":
-        resetDisplay();
-        break;
       case number:
         handleNumberClick(number);
         break;
       case operator:
         handleOperatorClick(operator);
+        break;
+      case "C":
+        resetDisplay();
         break;
       case "⌫":
         handleBackspaceClick();
